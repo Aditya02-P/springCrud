@@ -21,29 +21,24 @@ public class StudentController {
         this.studentService = studentService;
     }
 
-    @PostMapping("/create")
+    @PostMapping
     public ResponseEntity<StudentResponseDto> createStudent(@Valid @RequestBody StudentReqDto studentReqDto) {
-        System.out.println("Inside Controller");
         StudentResponseDto cs = studentService.createStudent(studentReqDto);
-        System.out.println("Exiting Controller");
-
         return ResponseEntity.status(HttpStatus.CREATED).body(cs);
     }
 
 
     //read one student
-    @GetMapping("/get/{id}")    
+    @GetMapping("/{id}")
     public ResponseEntity<StudentResponseDto> getStudentById(@PathVariable Long id) {
         StudentResponseDto reqSt= studentService.getStudent(id);
-        if(reqSt==null){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(reqSt);
-        }
+
         return ResponseEntity.status(HttpStatus.CREATED).body(reqSt);
 
     }
 
     //readdAll
-    @GetMapping("/getAll")
+    @GetMapping
     public ResponseEntity<List<StudentResponseDto>> getAllStudents() {
         List<StudentResponseDto> list = studentService.getAllStudent();
 
@@ -57,7 +52,7 @@ public class StudentController {
 
     //UPDATE MAPPING
 
-    @PutMapping("/update/{id}")
+    @PutMapping("/{id}  ")
 
     public ResponseEntity<StudentResponseDto> updateStudent(@PathVariable Long id, @RequestBody StudentReqDto student) {
         StudentResponseDto cs = studentService.updateStudent(id,student);

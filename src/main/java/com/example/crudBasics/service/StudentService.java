@@ -1,6 +1,7 @@
 package com.example.crudBasics.service;
 
 
+import com.example.crudBasics.Exception.ResourceNotFoundEx;
 import com.example.crudBasics.dto.StudentReqDto;
 import com.example.crudBasics.dto.StudentResponseDto;
 import com.example.crudBasics.entity.Student;
@@ -56,14 +57,12 @@ public class StudentService {
     }
 
     public StudentResponseDto getStudent(Long id) {
-        Optional<Student> student = studentRepository.findByIdAndDeletedIsFalse(id);
+        Optional<Student> student = Optional.of(studentRepository.
+                findByIdAndDeletedIsFalse(id).
+                orElseThrow(() -> new ResourceNotFoundEx("Student with id " + id + " not found")));
 
-        if(student.isPresent()) {
-            StudentResponseDto responseDto = new StudentResponseDto();
-            responseDto = mapToResponseDto(student.get());
-            return responseDto;
-        }
-        return null;
+            return mapToResponseDto(student.get());
+
     }
 
 
