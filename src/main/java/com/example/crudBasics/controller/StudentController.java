@@ -42,10 +42,6 @@ public class StudentController {
     public ResponseEntity<List<StudentResponseDto>> getAllStudents() {
         List<StudentResponseDto> list = studentService.getAllStudent();
 
-        if(list.isEmpty()){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(list);
-        }
-
         return ResponseEntity.status(HttpStatus.OK).body(list);
 
     }

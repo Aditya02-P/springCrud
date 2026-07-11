@@ -76,11 +76,9 @@ public class StudentService {
     public StudentResponseDto updateStudent(Long id, StudentReqDto student) {
 
         Optional<Student> studentOptional =
-                studentRepository.findByIdAndDeletedIsFalse(id);
+                Optional.of(studentRepository.findByIdAndDeletedIsFalse(id)
+                        .orElseThrow(() -> new ResourceNotFoundEx("Student with id: " + id + " doesn't exist")));
 
-        if (studentOptional.isEmpty()) {
-            return null;
-        }
 
         Student savedStudent = studentOptional.get();
 
@@ -97,20 +95,20 @@ public class StudentService {
 
     public boolean deleteStudent(Long id) {
 
-        boolean isStudent = studentRepository.existsById(id);
-        if (!isStudent) {
-            return false;
+        if (!studentRepository.existsById(id)) {
+            throw new ResourceNotFoundEx(
+                    "Student with id: " + id + " doesn't exist"
+            );
         }
+
         studentRepository.deleteById(id);
         return true;
     }
 
     public boolean deleteStudentSoftly(Long id) {
 
-        Optional<Student> studentOptional = studentRepository.findByIdAndDeletedIsFalse(id);
-        if (studentOptional.isEmpty()) {
-            return false;
-        }
+        Optional<Student> studentOptional =Optional.of( studentRepository.findByIdAndDeletedIsFalse(id).orElseThrow(()-> new ResourceNotFoundEx("Student with id: " + id + " doesn't exist")));
+
         Student student = studentOptional.get();
         student.setDeleted(true);
         studentRepository.save(student);
