@@ -22,7 +22,8 @@ public class LoggingFilter implements Filter {
 
         System.out.println("[Request Start] id=" + id
                 + " method=" + req.getMethod()
-                + " uri=" + req.getRequestURI());
+                + " uri=" + req.getRequestURI()+
+                "X-Client-Id"+req.getHeader("X-Client-Id"));
 
         chain.doFilter(request, response);
 

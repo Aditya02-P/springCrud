@@ -11,7 +11,7 @@ public class RequestLifecycleInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
         request.setAttribute("startTimeMs", System.currentTimeMillis());
 
-        String handlerName = handler instanceof HandlerMethod handlerMethod
+            String handlerName = handler instanceof HandlerMethod handlerMethod
                 ? handlerMethod.getMethod().getName()
                 : handler.getClass().getSimpleName();
 

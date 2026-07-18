@@ -17,6 +17,7 @@ public class InterceptorConfig implements WebMvcConfigurer {
 
         registry.addInterceptor(new ClientSourceInterceptor())
                 .addPathPatterns("/api/students/**")
+                .excludePathPatterns("/api/students/testcall")
                 .order(2);
     }
 }

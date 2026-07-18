@@ -7,6 +7,7 @@ import com.example.crudBasics.dto.StudentResponseDto;
 import com.example.crudBasics.entity.Student;
 import com.example.crudBasics.repository.StudentRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import java.time.LocalDateTime;
 import java.util.List;

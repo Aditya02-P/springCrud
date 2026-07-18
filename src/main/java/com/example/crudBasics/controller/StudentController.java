@@ -80,4 +80,9 @@ public class StudentController {
 
         return ResponseEntity.status(HttpStatus.OK).body("Student deleted successfully");
     }
+
+    @PostMapping("/testcall")
+    public String testPostCall(){
+        return "testPostCall called";
+    }
 }
