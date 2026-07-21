@@ -1,6 +1,7 @@
 package com.example.crudBasics.controller;
 
 
+import com.example.crudBasics.annotation.TrackExecTime;
 import com.example.crudBasics.dto.StudentReqDto;
 import com.example.crudBasics.dto.StudentResponseDto;
 import com.example.crudBasics.entity.Student;
@@ -29,6 +30,9 @@ public class StudentController {
 
 
     //read one student
+    @TrackExecTime(
+            getName = "Get Students By ID"
+    )
     @GetMapping("/{id}")
     public ResponseEntity<StudentResponseDto> getStudentById(@PathVariable Long id) {
         StudentResponseDto reqSt= studentService.getStudent(id);
