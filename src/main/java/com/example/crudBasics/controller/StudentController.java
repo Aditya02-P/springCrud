@@ -4,7 +4,6 @@ package com.example.crudBasics.controller;
 import com.example.crudBasics.annotation.TrackExecTime;
 import com.example.crudBasics.dto.StudentReqDto;
 import com.example.crudBasics.dto.StudentResponseDto;
-import com.example.crudBasics.entity.Student;
 import com.example.crudBasics.service.StudentService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -37,7 +36,7 @@ public class StudentController {
     public ResponseEntity<StudentResponseDto> getStudentById(@PathVariable Long id) {
         StudentResponseDto reqSt= studentService.getStudent(id);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(reqSt);
+        return ResponseEntity.status(HttpStatus.OK).body(reqSt);
 
     }
 
@@ -52,9 +51,11 @@ public class StudentController {
 
     //UPDATE MAPPING
 
-    @PutMapping("/{id}  ")
+    @PutMapping("/{id}")
 
-    public ResponseEntity<StudentResponseDto> updateStudent(@PathVariable Long id, @RequestBody StudentReqDto student) {
+    public ResponseEntity<StudentResponseDto> updateStudent(
+            @PathVariable Long id,
+            @Valid @RequestBody StudentReqDto student) {
         StudentResponseDto cs = studentService.updateStudent(id,student);
 
         if(cs==null){
@@ -74,7 +75,6 @@ public class StudentController {
     }
 
     @PatchMapping("/soft-delete/{id}")
-
     public ResponseEntity<String> softDeleteStudent(@PathVariable Long id) {
         boolean isDel= studentService.deleteStudentSoftly(id);
 
@@ -83,6 +83,13 @@ public class StudentController {
         }
 
         return ResponseEntity.status(HttpStatus.OK).body("Student deleted successfully");
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<StudentResponseDto>> searchStudents(
+            @RequestParam String keyword) {
+
+        return ResponseEntity.ok(studentService.searchStudents(keyword));
     }
 
     @PostMapping("/testcall")

@@ -7,7 +7,6 @@ import com.example.crudBasics.dto.StudentResponseDto;
 import com.example.crudBasics.entity.Student;
 import com.example.crudBasics.repository.StudentRepository;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PostMapping;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -45,7 +44,9 @@ public class StudentService {
     }
 
     private Student dtoToStudent(StudentReqDto dto) {
+
         Student student = new Student();
+
         student.setName(dto.getName());
         student.setEmail(dto.getEmail());
         student.setAge(dto.getAge());
@@ -88,6 +89,7 @@ public class StudentService {
         savedStudent.setAge(student.getAge());
         savedStudent.setRollNo(student.getRollNo());
         savedStudent.setSubject(student.getSubject());
+        savedStudent.setUpdatedDate(LocalDateTime.now());
 
         Student updatedStudent = studentRepository.save(savedStudent);
 
@@ -114,6 +116,13 @@ public class StudentService {
         student.setDeleted(true);
         studentRepository.save(student);
 
-        return false;
+        return true;
+    }
+
+    public List<StudentResponseDto> searchStudents(String keyword) {
+        return studentRepository.searchByNameOrSubject(keyword)
+                .stream()
+                .map(this::mapToResponseDto)
+                .toList();
     }
 }
